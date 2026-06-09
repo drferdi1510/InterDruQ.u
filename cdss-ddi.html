@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDSS·DDI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  /* Palette — deep clinical navy + electric teal accent */
+  --ink:       #0d1117;
+  --ink-2:     #1c2333;
+  --ink-3:     #263042;
+  --surface:   #ffffff;
+  --mist:      #f4f6fa;
+  --mist-2:    #edf0f7;
+  --line:      #e3e8f0;
+  --line-2:    #d0d7e3;
+  --text:      #111827;
+  --text-2:    #4b5563;
+  --text-3:    #9ca3af;
+  --text-inv:  #ffffff;
+
+  --teal:      #0ea5e9;
+  --teal-dim:  #bae6fd;
+  --teal-deep: #0369a1;
+  --teal-bg:   #f0f9ff;
+
+  --red:       #ef4444;
+  --red-dim:   #fee2e2;
+  --red-deep:  #991b1b;
+  --amber:     #f59e0b;
+  --amber-dim: #fef3c7;
+  --amber-deep:#92400e;
+  --green:     #10b981;
+  --green-dim: #d1fae5;
+  --green-deep:#065f46;
+
+  --r:  12px;
+  --r-s: 8px;
+  --r-xs:5px;
+  --sh: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+  --sh-m: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.05);
+  --sh-l: 0 20px 40px rgba(0,0,0,.14), 0 8px 16px rgba(0,0,0,.08);
+  --sh-xl: 0 32px 64px rgba(0,0,0,.22), 0 16px 32px rgba(0,0,0,.12);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--mist);
+  color:var(--text);
+  min-height:100vh;
+  font-size:14px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── SIDEBAR ────────────────────────────── */
+.app{display:flex;min-height:100vh}
+
+.sidebar{
+  width:240px;
+  flex-shrink:0;
+  background:var(--ink);
+  display:flex;
+  flex-direction:column;
+  padding:0;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:hidden;
+}
+
+.sidebar-brand{
+  padding:28px 22px 20px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.brand-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:linear-gradient(135deg,var(--teal),#6366f1);
+  border-radius:10px;
+  padding:8px 12px;
+  margin-bottom:14px;
+}
+.brand-pill-icon{font-size:18px;line-height:1}
+.brand-pill-text{
+  font-size:13px;
+  font-weight:700;
+  color:white;
+  letter-spacing:1px;
+}
+.brand-title{
+  font-size:11px;
+  color:rgba(255,255,255,.4);
+  font-weight:400;
+  line-height:1.5;
+}
+
+.sidebar-nav{
+  flex:1;
+  padding:16px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.nav-section-label{
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:1.2px;
+  color:rgba(255,255,255,.25);
+  padding:12px 10px 6px;
+  text-transform:uppercase;
+}
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  color:rgba(255,255,255,.5);
+  font-size:13px;
+  font-weight:500;
+  transition:all .15s;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:left;
+}
+.nav-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.8)}
+.nav-item.active{background:rgba(14,165,233,.15);color:var(--teal)}
+.nav-item-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;
+  background:var(--red);
+  color:white;
+  font-size:10px;
+  font-weight:700;
+  padding:1px 6px;
+  border-radius:10px;
+  min-width:18px;
+  text-align:center;
+  display:none;
+}
+.nav-badge.visible{display:block}
+
+.sidebar-footer{
+  padding:16px 22px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.footer-db{
+  background:rgba(14,165,233,.1);
+  border:1px solid rgba(14,165,233,.2);
+  border-radius:8px;
+  padding:10px 12px;
+}
+.footer-db-label{font-size:10px;color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.footer-db-val{font-size:18px;font-weight:700;color:var(--teal);font-family:'DM Mono',monospace;margin-top:1px}
+.footer-db-sub{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px}
+
+/* ── MAIN ───────────────────────────────── */
+.main{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+}
+
+.topbar{
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+  padding:0 28px;
+  height:56px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+.topbar-title{
+  font-size:15px;
+  font-weight:600;
+  color:var(--text);
+}
+.topbar-divider{width:1px;height:20px;background:var(--line)}
+.topbar-sub{font-size:12px;color:var(--text-3);flex:1}
+.topbar-time{
+  font-size:11px;
+  color:var(--text-3);
+  font-family:'DM Mono',monospace;
+}
+.topbar-status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:var(--green-dim);
+  border:1px solid #a7f3d0;
+  color:var(--green-deep);
+  font-size:11px;
+  font-weight:600;
+  padding:4px 10px;
+  border-radius:20px;
+}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── CONTENT AREA ───────────────────────── */
+.content{
+  flex:1;
+  padding:24px 28px;
+  display:grid;
+  grid-template-columns:1fr 360px;
+  gap:20px;
+  align-items:start;
+}
+
+/* ── SECTION ────────────────────────────── */
+.section{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  box-shadow:var(--sh);
+  overflow:visible;
+  margin-bottom:16px;
+}
+.section:last-child{margin-bottom:0}
+
+.section-head{
+  padding:14px 20px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.section-head-icon{
+  width:30px;height:30px;
+  border-radius:8px;
+  background:var(--teal-bg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.section-head-text{font-size:13px;font-weight:600;color:var(--text)}
+.section-head-meta{margin-left:auto;font-size:11px;color:var(--text-3);font-family:'DM Mono',monospace}
+.section-body{padding:20px}
+
+/* ── PATIENT GRID ───────────────────────── */
+.patient-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.field{display:flex;flex-direction:column;gap:5px}
+.field-label{
+  font-size:11px;font-weight:600;
+  color:var(--text-3);
+  letter-spacing:.3px;
+}
+.field-input{
+  padding:9px 12px;
+  border:1.5px solid var(--line-2);
+  border-radius:var(--r-s);
+  font-size:13px;
+  font-family:'DM Sans',sans-serif;
+  color:var(--text);
+  background:var(--surface);
+  outline:none;
+  transition:border-color .15s,box-shadow .15s,background .15s;
+  width:100%;
+}
+.field-input:focus{
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(14,165,233,.12);
+  background:#fff;
+}
+.field-input::placeholder{color:var(--text-3)}
+select.field-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%239ca3af'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+
+/* ── RX TABLE ───────────────────────────── */
+.rx-wrap{overflow-x:auto;margin:0 -20px;padding:0 20px}
+.rx-table{width:100%;border-collapse:collapse}
+.rx-table th{
+  font-size:10px;font-weight:700;
+  color:var(--text-3);
+  text-transform:uppercase;letter-spacing:.6px;
+  padding:8px 10px;
+  border-bottom:1.5px solid var(--line);
+  text-align:left;
+  white-space:nowrap;
+  background:var(--mist);
+}
+.rx-table th:first-child{border-radius:8px 0 0 0;padding-left:0}
+.rx-table th:last-child{border-radius:0 8px 0 0}
+.rx-table td{
+  padding:7px 10px;
+  border-bottom:1px solid var(--line);
+  vertical-align:middle;
+}
+.rx-table td:first-child{padding-left:0}
+.rx-table tbody tr:last-child td{border-bottom:none}
+.rx-table tbody tr{transition:background .1s}
+.rx-table tbody tr:hover td{background:var(--mist)}
+
+.row-num{
+  width:22px;height:22px;
+  background:var(--ink-3);
+  color:rgba(255,255,255,.7);
+  border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;
+  font-family:'DM Mono',monospace;
+}
+
+/* AUTOCOMPLETE */
+.ac-wrap{position:relative}
+.drug-inp{
+  width:100%;
+  padding:7px 10px;
+  border:1.5px solid var(--line-2);
+  border-radius:var(--r-s);
+  font-size:13px;font-family:'DM Sans',sans-serif;
+  color:var(--text);background:white;outline:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+.drug-inp:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.drug-inp.filled{
+  border-color:var(--teal);
+  background:var(--teal-bg);
+  color:var(--teal-deep);
+  font-weight:600;
+}
+.ac-drop{
+  position:absolute;top:calc(100% + 5px);left:0;right:0;
+  background:white;
+  border:1.5px solid var(--line);
+  border-radius:var(--r-s);
+  box-shadow:var(--sh-l);
+  z-index:300;max-height:190px;overflow-y:auto;
+  display:none;
+  animation:dropIn .1s ease;
+}
+@keyframes dropIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.ac-drop.open{display:block}
+.ac-item{
+  padding:8px 12px;cursor:pointer;
+  font-size:13px;
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:8px;
+  transition:background .1s;
+}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover{background:var(--teal-bg)}
+.ac-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;opacity:.5}
+.ac-item:hover .ac-dot{opacity:1}
+
+.mini-inp{
+  width:100%;padding:7px 8px;
+  border:1.5px solid var(--line-2);border-radius:var(--r-s);
+  font-size:12px;font-family:'DM Sans',sans-serif;
+  color:var(--text);outline:none;
+  transition:border-color .15s;
+  background:white;
+}
+.mini-inp:focus{border-color:var(--teal)}
+
+.btn-del{
+  width:28px;height:28px;border-radius:50%;
+  background:none;border:1.5px solid var(--line-2);
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+  color:var(--text-3);font-size:13px;
+  transition:all .15s;
+}
+.btn-del:hover{background:var(--red-dim);border-color:var(--red);color:var(--red)}
+
+/* ADD DRUG */
+.btn-add{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 14px;
+  background:none;
+  border:1.5px dashed var(--line-2);
+  border-radius:var(--r-s);
+  cursor:pointer;
+  color:var(--text-3);
+  font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;
+  width:100%;margin-top:12px;
+  transition:all .15s;
+}
+.btn-add:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-bg)}
+.btn-add-icon{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;transition:background .15s;
+}
+.btn-add:hover .btn-add-icon{background:var(--teal);color:white}
+
+/* NOTES */
+.notes{
+  width:100%;padding:10px 12px;
+  border:1.5px solid var(--line-2);border-radius:var(--r-s);
+  font-size:13px;font-family:'DM Sans',sans-serif;
+  color:var(--text);resize:vertical;min-height:72px;outline:none;
+  transition:border-color .15s;
+}
+.notes:focus{border-color:var(--teal)}
+
+/* CTA BUTTON */
+.btn-cta{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:13px 20px;
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  color:white;border:none;border-radius:var(--r-s);
+  font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;
+  cursor:pointer;
+  margin-top:16px;
+  transition:opacity .15s,transform .1s,box-shadow .15s;
+  box-shadow:0 4px 14px rgba(14,165,233,.35);
+  letter-spacing:.2px;
+}
+.btn-cta:hover{opacity:.92;box-shadow:0 6px 20px rgba(14,165,233,.45)}
+.btn-cta:active{transform:scale(.99)}
+.btn-cta:disabled{background:var(--line-2);box-shadow:none;cursor:not-allowed}
+.btn-cta-icon{font-size:16px}
+
+/* ── RIGHT PANEL ────────────────────────── */
+.panel-empty-wrap{
+  padding:36px 20px;
+  text-align:center;
+}
+.panel-empty-art{
+  width:64px;height:64px;
+  background:var(--mist);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  margin:0 auto 14px;
+  border:1.5px solid var(--line);
+}
+.panel-empty-title{font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:6px}
+.panel-empty-desc{font-size:12px;color:var(--text-3);line-height:1.6}
+
+/* RESULT SUMMARY BAR */
+.result-bar{
+  border-radius:var(--r-s);
+  padding:12px 14px;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:12px;
+  border:1.5px solid;
+}
+.result-bar.safe{background:var(--green-dim);border-color:#6ee7b7;color:var(--green-deep)}
+.result-bar.warn{background:var(--red-dim);border-color:#fca5a5;color:var(--red-deep)}
+.result-bar-icon{font-size:22px;flex-shrink:0}
+.result-bar-title{font-size:13px;font-weight:700}
+.result-bar-sub{font-size:11px;opacity:.75;margin-top:1px}
+
+/* DDI ITEM CARD */
+.ddi-list{display:flex;flex-direction:column;gap:8px}
+.ddi-card{
+  border-radius:var(--r-s);
+  border:1.5px solid var(--line);
+  overflow:hidden;
+  transition:box-shadow .15s;
+}
+.ddi-card:hover{box-shadow:var(--sh-m)}
+.ddi-card-head{
+  padding:10px 14px;
+  display:flex;align-items:center;gap:10px;
+  cursor:pointer;
+  user-select:none;
+}
+.sev-chip{
+  padding:2px 8px;border-radius:20px;
+  font-size:9px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.6px;
+  flex-shrink:0;white-space:nowrap;
+}
+.sev-severe{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.sev-moderate{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.sev-mild{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
+
+.ddi-drugs{
+  font-size:12px;font-weight:700;
+  font-family:'DM Mono',monospace;
+  color:var(--text);flex:1;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.ddi-chev{
+  font-size:10px;color:var(--text-3);
+  transition:transform .2s;flex-shrink:0;
+}
+.ddi-chev.open{transform:rotate(90deg)}
+.ddi-body{
+  padding:12px 14px;
+  border-top:1px solid var(--line);
+  background:var(--mist);
+  display:none;flex-direction:column;gap:10px;
+}
+.ddi-body.open{display:flex}
+.ddi-detail-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--text-3);margin-bottom:3px}
+.ddi-detail-val{font-size:12px;color:var(--text-2);line-height:1.55}
+.mech-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  background:#ede9fe;color:#5b21b6;
+  padding:2px 8px;border-radius:20px;
+  font-size:10px;font-weight:600;
+  border:1px solid #c4b5fd;
+}
+.manage-box{
+  background:white;
+  border:1px solid #6ee7b7;
+  border-left:3px solid var(--green);
+  border-radius:var(--r-xs);
+  padding:8px 10px;
+  font-size:11px;color:var(--green-deep);line-height:1.5;
+}
+
+/* ── MODAL ──────────────────────────────── */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(13,17,23,.7);
+  backdrop-filter:blur(8px);
+  z-index:1000;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .2s;
+}
+.overlay.open{opacity:1;pointer-events:all}
+
+.modal{
+  background:white;
+  border-radius:16px;
+  box-shadow:var(--sh-xl);
+  width:94%;max-width:520px;
+  overflow:hidden;
+  transform:scale(.94) translateY(16px);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+  max-height:90vh;
+  display:flex;flex-direction:column;
+}
+.overlay.open .modal{transform:scale(1) translateY(0)}
+
+.modal-banner{
+  padding:22px 24px;
+  background:linear-gradient(135deg,#7f1d1d,#991b1b);
+  display:flex;align-items:flex-start;gap:16px;
+  flex-shrink:0;
+}
+.modal-banner.lvl-moderate{background:linear-gradient(135deg,#78350f,#92400e)}
+.modal-banner.lvl-mild{background:linear-gradient(135deg,#065f46,#047857)}
+.modal-banner.lvl-safe{background:linear-gradient(135deg,#065f46,#059669)}
+
+.modal-banner-icon{font-size:32px;flex-shrink:0;margin-top:2px}
+.modal-banner-title{font-size:17px;font-weight:700;color:white;line-height:1.3}
+.modal-banner-sub{font-size:12px;color:rgba(255,255,255,.75);margin-top:4px}
+
+.modal-scroll{overflow-y:auto;flex:1}
+.modal-body{padding:20px 24px}
+
+.modal-items{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.modal-item{
+  border-radius:var(--r-s);
+  border:1.5px solid;
+  padding:12px 14px;
+}
+.modal-item.severe{background:#fff1f2;border-color:#fecdd3}
+.modal-item.moderate{background:#fffbeb;border-color:#fde68a}
+.modal-item.mild{background:#f0fdf4;border-color:#bbf7d0}
+.modal-item-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.modal-item-drugs{font-size:12px;font-weight:700;font-family:'DM Mono',monospace;color:var(--text);flex:1}
+.modal-item-desc{font-size:12px;color:var(--text-2);line-height:1.55}
+.modal-item-manage{font-size:11px;color:var(--green-deep);margin-top:6px;font-style:italic;padding-left:8px;border-left:2px solid var(--green)}
+
+.modal-note{
+  background:var(--mist);
+  border:1px solid var(--line);
+  border-radius:var(--r-s);
+  padding:10px 13px;
+  font-size:11px;color:var(--text-2);
+  line-height:1.6;margin-bottom:18px;
+}
+.modal-note strong{color:var(--text)}
+
+.modal-actions{display:flex;gap:10px}
+.btn-change{
+  flex:1;padding:12px;
+  background:linear-gradient(135deg,#0ea5e9,#6366f1);
+  color:white;border:none;border-radius:var(--r-s);
+  font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;
+  cursor:pointer;transition:opacity .15s;
+  box-shadow:0 3px 10px rgba(14,165,233,.3);
+}
+.btn-change:hover{opacity:.9}
+.btn-keep{
+  flex:1;padding:12px;
+  background:white;
+  color:var(--text-2);
+  border:1.5px solid var(--line-2);
+  border-radius:var(--r-s);
+  font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;
+  cursor:pointer;transition:all .15s;
+}
+.btn-keep:hover{border-color:var(--text-2);color:var(--text)}
+
+/* ── TOAST ──────────────────────────────── */
+.toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--ink);
+  color:white;
+  padding:11px 22px;
+  border-radius:100px;
+  font-size:13px;font-weight:500;
+  display:flex;align-items:center;gap:9px;
+  z-index:2000;
+  box-shadow:var(--sh-l);
+  transition:transform .3s cubic-bezier(.34,1.4,.64,1);
+  white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+
+/* ── SCROLLBAR ──────────────────────────── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:3px}
+
+@media(max-width:900px){
+  .sidebar{display:none}
+  .content{grid-template-columns:1fr}
+  .patient-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-pill">
+      <span class="brand-pill-icon">💊</span>
+      <span class="brand-pill-text">CDSS·DDI</span>
+    </div>
+    <div class="brand-title">Clinical Decision Support<br>Drug–Drug Interaction</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Menu</div>
+    <button class="nav-item active">
+      <span class="nav-item-icon">📋</span> e-Prescription
+    </button>
+    <button class="nav-item">
+      <span class="nav-item-icon">🔍</span> Cek Interaksi
+      <span class="nav-badge" id="nav-badge">0</span>
+    </button>
+    <button class="nav-item">
+      <span class="nav-item-icon">📁</span> Riwayat Resep
+    </button>
+    <div class="nav-section-label">Database</div>
+    <button class="nav-item">
+      <span class="nav-item-icon">📚</span> Daftar Obat
+    </button>
+    <button class="nav-item">
+      <span class="nav-item-icon">⚗️</span> Pasangan DDI
+    </button>
+    <div class="nav-section-label">Sistem</div>
+    <button class="nav-item">
+      <span class="nav-item-icon">⚙️</span> Pengaturan
+    </button>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="footer-db">
+      <div class="footer-db-label">Database DDI</div>
+      <div class="footer-db-val">120+</div>
+      <div class="footer-db-sub">Pasangan interaksi aktif</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ── MAIN AREA ── -->
+<div class="main">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <span class="topbar-title">e-Prescription</span>
+    <div class="topbar-divider"></div>
+    <span class="topbar-sub" id="topbar-date"></span>
+    <div class="topbar-status">
+      <span class="status-dot"></span>
+      Database aktif
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- LEFT COLUMN -->
+    <div>
+
+      <!-- Patient Section -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-head-icon">🧑‍⚕️</div>
+          <span class="section-head-text">Data Pasien</span>
+        </div>
+        <div class="section-body">
+          <div class="patient-grid">
+            <div class="field">
+              <label class="field-label">Nama Pasien</label>
+              <input class="field-input" type="text" placeholder="Nama lengkap pasien" id="pt-name">
+            </div>
+            <div class="field">
+              <label class="field-label">No. Rekam Medis</label>
+              <input class="field-input" type="text" placeholder="RM–000000" id="pt-mr">
+            </div>
+            <div class="field">
+              <label class="field-label">Usia &amp; Jenis Kelamin</label>
+              <div style="display:flex;gap:8px">
+                <input class="field-input" type="number" placeholder="Thn" id="pt-age" style="width:72px;flex-shrink:0">
+                <select class="field-input" id="pt-sex">
+                  <option value="">J/K</option>
+                  <option>Laki-laki</option>
+                  <option>Perempuan</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label">Diagnosis Utama</label>
+              <input class="field-input" type="text" placeholder="Diagnosis / ICD-10" id="pt-dx">
+            </div>
+            <div class="field">
+              <label class="field-label">Ruangan / Unit</label>
+              <select class="field-input" id="pt-ward">
+                <option value="">Pilih ruangan</option>
+                <option>ICU</option><option>ICCU</option>
+                <option>Rawat Inap</option><option>IGD</option>
+                <option>Poli Umum</option><option>Poli Jantung</option>
+                <option>Poli Penyakit Dalam</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label">Dokter DPJP</label>
+              <input class="field-input" type="text" placeholder="dr. Nama DPJP" id="pt-dpjp">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prescription Section -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-head-icon">💊</div>
+          <span class="section-head-text">Order Obat</span>
+          <span class="section-head-meta" id="rx-count">0 obat</span>
+        </div>
+        <div class="section-body">
+          <div class="rx-wrap">
+            <table class="rx-table">
+              <thead>
+                <tr>
+                  <th style="width:32px"></th>
+                  <th style="min-width:190px">Nama Obat</th>
+                  <th style="width:88px">Dosis</th>
+                  <th style="width:130px">Frekuensi</th>
+                  <th style="width:80px">Rute</th>
+                  <th style="width:32px"></th>
+                </tr>
+              </thead>
+              <tbody id="rx-tbody"></tbody>
+            </table>
+          </div>
+          <button class="btn-add" onclick="addRow()">
+            <span class="btn-add-icon">＋</span>
+            Tambah obat
+          </button>
+
+          <div class="field" style="margin-top:16px">
+            <label class="field-label">Catatan Klinis</label>
+            <textarea class="notes" id="rx-notes" placeholder="Catatan dokter, pertimbangan klinis, alergi, atau instruksi khusus..."></textarea>
+          </div>
+
+          <button class="btn-cta" onclick="doCheck()">
+            <span class="btn-cta-icon">🔎</span>
+            Simpan &amp; Cek Interaksi Obat
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /LEFT -->
+
+    <!-- RIGHT COLUMN -->
+    <div>
+      <div class="section">
+        <div class="section-head">
+          <div class="section-head-icon">⚠️</div>
+          <span class="section-head-text">Hasil Skrining DDI</span>
+          <span class="section-head-meta" id="result-count">—</span>
+        </div>
+        <div class="section-body" id="result-panel">
+          <div class="panel-empty-wrap">
+            <div class="panel-empty-art">🔍</div>
+            <div class="panel-empty-title">Belum ada hasil</div>
+            <div class="panel-empty-desc">Isi order obat lalu klik<br><strong>Simpan &amp; Cek Interaksi</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-head-icon">📖</div>
+          <span class="section-head-text">Keterangan Tingkat Risiko</span>
+        </div>
+        <div class="section-body" style="padding:14px 20px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:flex-start;gap:10px">
+              <span class="sev-chip sev-severe" style="margin-top:2px">🔴 Berat</span>
+              <span style="font-size:12px;color:var(--text-2)">Kontraindikasi atau membutuhkan penanganan segera. Pertimbangkan penggantian obat.</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px">
+              <span class="sev-chip sev-moderate" style="margin-top:2px">🟡 Sedang</span>
+              <span style="font-size:12px;color:var(--text-2)">Diperlukan monitoring ketat atau penyesuaian dosis.</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px">
+              <span class="sev-chip sev-mild" style="margin-top:2px">🟢 Ringan</span>
+              <span style="font-size:12px;color:var(--text-2)">Interaksi minimal, tetap perlu diperhatikan secara klinis.</span>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:10px;color:var(--text-3);line-height:1.6">
+            Referensi: farmakologi klinik standar. Database mencakup obat umum + ICU/kritis. Bukan pengganti penilaian klinis.
+          </div>
+        </div>
+      </div>
+    </div><!-- /RIGHT -->
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ── MODAL ── -->
+<div class="overlay" id="overlay" onclick="overlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-banner" id="modal-banner">
+      <div class="modal-banner-icon" id="modal-icon">⚠️</div>
+      <div>
+        <div class="modal-banner-title" id="modal-title">Peringatan Interaksi Obat</div>
+        <div class="modal-banner-sub" id="modal-sub"></div>
+      </div>
+    </div>
+    <div class="modal-scroll">
+      <div class="modal-body">
+        <div class="modal-items" id="modal-items"></div>
+        <div class="modal-note">
+          <strong>Catatan:</strong> Sistem ini bersifat <em>pendukung keputusan klinis</em>. Keputusan akhir sepenuhnya berada pada pertimbangan dokter dan atas persetujuan pasien.
+        </div>
+        <div class="modal-actions">
+          <button class="btn-change" onclick="closeModal()">✏️ Ubah Resep</button>
+          <button class="btn-keep" onclick="confirmSave()">Lanjutkan Simpan →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">
+  <span class="toast-dot"></span>
+  <span id="toast-msg">Resep disimpan</span>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  DDI DATABASE
+// ══════════════════════════════════════════
+const DB = [
+  {drugs:["warfarin","aspirin"],sev:"severe",mech:"Farmakodinamik",desc:"Aspirin menghambat agregasi platelet sehingga kombinasi dengan warfarin meningkatkan risiko perdarahan mayor secara signifikan.",mgmt:"Hindari kombinasi. Jika diperlukan, pantau INR ketat dan pertimbangkan PPI profilaktik."},
+  {drugs:["warfarin","metronidazole"],sev:"severe",mech:"Farmakokinetik (inhibisi CYP2C9)",desc:"Metronidazol menginhibisi CYP2C9, meningkatkan kadar warfarin secara signifikan dan risiko perdarahan berat.",mgmt:"Pantau INR dalam 3–5 hari. Pertimbangkan reduksi dosis warfarin 25–50%."},
+  {drugs:["warfarin","ciprofloxacin"],sev:"severe",mech:"Farmakokinetik (inhibisi CYP1A2/CYP3A4)",desc:"Siprofloksasin menginhibisi metabolisme warfarin sehingga meningkatkan efek antikoagulan dan risiko perdarahan.",mgmt:"Monitor INR dalam 2–3 hari. Pertimbangkan reduksi dosis warfarin sementara."},
+  {drugs:["warfarin","rifampicin"],sev:"severe",mech:"Farmakokinetik (induksi CYP2C9)",desc:"Rifampisin menginduksi CYP2C9, menurunkan kadar warfarin secara dramatis dan meningkatkan risiko tromboemboli.",mgmt:"Monitor INR 2–3x/minggu saat inisiasi/penghentian rifampisin. Dosis warfarin mungkin perlu dinaikkan 2–5 kali lipat."},
+  {drugs:["warfarin","amiodarone"],sev:"severe",mech:"Farmakokinetik (inhibisi CYP2C9 & CYP3A4)",desc:"Amiodaron menginhibisi metabolisme warfarin secara kuat, meningkatkan INR bermakna dan risiko perdarahan serius.",mgmt:"Kurangi dosis warfarin 30–50% saat memulai amiodaron. Monitor INR tiap 1–2 minggu selama 4–8 minggu."},
+  {drugs:["warfarin","vitamin k"],sev:"moderate",mech:"Farmakodinamik (antagonisme)",desc:"Vitamin K mengantagonisasi efek antikoagulan warfarin secara langsung. Perubahan asupan mempengaruhi INR bermakna.",mgmt:"Konsistensi asupan vitamin K. Monitor INR lebih sering jika ada perubahan."},
+  {drugs:["heparin","enoxaparin"],sev:"severe",mech:"Farmakodinamik (aditif)",desc:"Kombinasi heparin dan LMWH meningkatkan risiko perdarahan secara aditif karena mekanisme antikoagulan yang sinergis.",mgmt:"Kontraindikasi kombinasi. Gunakan salah satu agen antikoagulan saja."},
+  {drugs:["heparin","aspirin"],sev:"moderate",mech:"Farmakodinamik (perdarahan aditif)",desc:"Heparin dan aspirin memberikan efek antikoagulan dan antiplatelet yang sinergistik, meningkatkan risiko perdarahan.",mgmt:"Kombinasi dapat diperlukan (mis. ACS). Pantau tanda perdarahan, gunakan aspirin dosis rendah, monitor aPTT."},
+  {drugs:["clopidogrel","omeprazole"],sev:"moderate",mech:"Farmakokinetik (inhibisi CYP2C19)",desc:"Omeprazol menginhibisi CYP2C19 sehingga mengurangi aktivasi klopidogrel dan menurunkan efek antiplatelet.",mgmt:"Gunakan pantoprazole atau rabeprazole sebagai alternatif. Pantau kejadian kardiovaskular."},
+  {drugs:["amiodarone","simvastatin"],sev:"severe",mech:"Farmakokinetik (inhibisi CYP3A4)",desc:"Amiodaron menginhibisi CYP3A4, meningkatkan kadar simvastatin dan risiko miopati/rabdomiolisis.",mgmt:"Batasi dosis simvastatin maks. 20 mg/hari. Pertimbangkan ganti ke rosuvastatin atau pravastatin."},
+  {drugs:["amiodarone","digoxin"],sev:"severe",mech:"Farmakokinetik (reduksi volume distribusi)",desc:"Amiodaron meningkatkan kadar digoksin 50–100% dengan menurunkan volume distribusi dan clearance renal.",mgmt:"Kurangi dosis digoksin 50% saat memulai amiodaron. Monitor kadar digoksin dan tanda toksisitas."},
+  {drugs:["amiodarone","haloperidol"],sev:"moderate",mech:"Farmakodinamik (pemanjangan QT)",desc:"Kedua obat memperpanjang interval QT. Kombinasi meningkatkan risiko aritmia ventrikel (Torsade de Pointes).",mgmt:"Monitor EKG (QTc). Hentikan salah satu jika QTc >500 ms."},
+  {drugs:["digoxin","furosemide"],sev:"moderate",mech:"Farmakodinamik (hipokalemia)",desc:"Furosemid menyebabkan hipokalemia yang meningkatkan toksisitas digoksin meski kadar dalam batas normal.",mgmt:"Monitor kalium dan magnesium serum. Suplementasi kalium jika diperlukan. Monitor EKG."},
+  {drugs:["metoprolol","verapamil"],sev:"severe",mech:"Farmakodinamik (blokade konduksi AV)",desc:"Kombinasi beta-bloker dan verapamil menekan konduksi AV secara sinergistik, berisiko bradikardi berat dan blok AV.",mgmt:"Hindari kombinasi intravena. Jika oral, monitor EKG ketat dan tanda gagal jantung."},
+  {drugs:["bisoprolol","diltiazem"],sev:"moderate",mech:"Farmakodinamik (konduksi aditif)",desc:"Beta-bloker dan diltiazem bersifat aditif dalam menekan node SA dan AV, berisiko bradikardi dan blok AV.",mgmt:"Monitor denyut jantung dan EKG. Hindari pada pasien dengan gangguan konduksi."},
+  {drugs:["amlodipine","simvastatin"],sev:"moderate",mech:"Farmakokinetik (inhibisi CYP3A4)",desc:"Amlodipin menginhibisi CYP3A4, meningkatkan AUC simvastatin dan risiko miopati.",mgmt:"Batasi simvastatin ≤20 mg/hari. Monitor gejala miopati."},
+  {drugs:["atorvastatin","clarithromycin"],sev:"moderate",mech:"Farmakokinetik (inhibisi CYP3A4)",desc:"Klaritromisin menginhibisi CYP3A4 secara kuat, meningkatkan kadar atorvastatin dan risiko miopati/rabdomiolisis.",mgmt:"Pertimbangkan penghentian sementara statin selama terapi klaritromisin."},
+  {drugs:["atorvastatin","erythromycin"],sev:"moderate",mech:"Farmakokinetik (inhibisi CYP3A4)",desc:"Eritromisin menginhibisi CYP3A4, meningkatkan kadar atorvastatin dan risiko miopati.",mgmt:"Monitor gejala miopati. Pertimbangkan penghentian sementara atorvastatin."},
+  {drugs:["statin","fibrate"],sev:"moderate",mech:"Farmakodinamik (miopati aditif)",desc:"Kombinasi statin dengan fibrat (terutama gemfibrozil) meningkatkan risiko miopati dan rabdomiolisis.",mgmt:"Hindari gemfibrozil + statin. Gunakan fenofibrat + pravastatin/rosuvastatin dosis rendah jika perlu."},
+  {drugs:["lisinopril","spironolactone"],sev:"moderate",mech:"Farmakodinamik (hiperkalemia)",desc:"Kombinasi ACEI dan spironolakton meningkatkan risiko hiperkalemia, terutama pada gangguan fungsi ginjal.",mgmt:"Monitor kalium serum dalam 1–2 minggu. Waspadai pada pasien CKD."},
+  {drugs:["lisinopril","potassium"],sev:"moderate",mech:"Farmakodinamik (hiperkalemia)",desc:"ACEI mengurangi ekskresi kalium. Suplementasi kalium bersamaan meningkatkan risiko hiperkalemia.",mgmt:"Monitor elektrolit serum. Pertimbangkan pengurangan dosis suplementasi kalium."},
+  {drugs:["furosemide","gentamicin"],sev:"severe",mech:"Farmakodinamik (ototoksisitas)",desc:"Furosemid dan gentamisin bersifat sinergistik dalam toksisitas sel rambut koklea. Risiko tuli irreversibel meningkat bermakna.",mgmt:"Hindari. Jika terpaksa, gunakan dosis minimal, pantau kadar puncak/trough dan audiometri serial."},
+  {drugs:["furosemide","aminoglycoside"],sev:"severe",mech:"Farmakodinamik (ototoksisitas)",desc:"Kombinasi furosemid dan aminoglikosida meningkatkan risiko ototoksisitas (tuli permanen) secara sinergistik.",mgmt:"Hindari kombinasi. Pantau audiometri, kadar serum aminoglikosida, dan fungsi ginjal."},
+  {drugs:["vancomycin","aminoglycoside"],sev:"severe",mech:"Farmakodinamik (nefrotoksisitas aditif)",desc:"Vankomisin dan aminoglikosida meningkatkan risiko nefrotoksisitas secara sinergistik, terutama di ICU.",mgmt:"Monitor kreatinin dan urin output harian. Lakukan TDM vankomisin dan aminoglikosida."},
+  {drugs:["vancomycin","furosemide"],sev:"moderate",mech:"Farmakodinamik (ototoksisitas + nefrotoksisitas)",desc:"Furosemid meningkatkan kadar serum vankomisin dan bersifat sinergistik dalam ototoksisitas.",mgmt:"Monitor fungsi ginjal dan pendengaran. Pantau kadar trough vankomisin."},
+  {drugs:["metronidazole","alcohol"],sev:"severe",mech:"Farmakodinamik (disulfiram-like reaction)",desc:"Metronidazol menghambat aldehid dehidrogenase. Alkohol menyebabkan akumulasi asetaldehid (mual berat, flushing, takikardi).",mgmt:"Edukasi pasien untuk tidak mengonsumsi alkohol selama terapi dan 48 jam setelahnya."},
+  {drugs:["ciprofloxacin","antacid"],sev:"moderate",mech:"Farmakokinetik (chelation)",desc:"Kation antasida membentuk chelate dengan siprofloksasin, menurunkan absorpsi hingga 50–90%.",mgmt:"Berikan siprofloksasin minimal 2 jam sebelum atau 6 jam setelah antasida."},
+  {drugs:["ciprofloxacin","theophylline"],sev:"moderate",mech:"Farmakokinetik (inhibisi CYP1A2)",desc:"Siprofloksasin menginhibisi CYP1A2, meningkatkan kadar teofilin 40–90% dan risiko toksisitas.",mgmt:"Kurangi dosis teofilin 30–50% saat memulai siprofloksasin. Monitor kadar teofilin serum."},
+  {drugs:["ciprofloxacin","quetiapine"],sev:"moderate",mech:"Farmakokinetik + QT prolongation",desc:"Siprofloksasin menginhibisi CYP3A4 dan bersifat aditif dalam pemanjangan QT dengan kuetiapine.",mgmt:"Monitor EKG. Pertimbangkan dosis kuetiapine lebih rendah atau antibiotik alternatif."},
+  {drugs:["tacrolimus","fluconazole"],sev:"severe",mech:"Farmakokinetik (inhibisi CYP3A4)",desc:"Flukonazol menginhibisi CYP3A4 secara kuat, meningkatkan kadar takrolimus 2–4x lipat dan risiko nefrotoksisitas.",mgmt:"Kurangi dosis takrolimus 50–75% saat memulai flukonazol. Monitor kadar dan fungsi ginjal ketat."},
+  {drugs:["tacrolimus","clarithromycin"],sev:"severe",mech:"Farmakokinetik (inhibisi CYP3A4)",desc:"Klaritromisin menginhibisi CYP3A4, meningkatkan kadar takrolimus secara dramatis.",mgmt:"Hindari kombinasi. Gunakan antibiotik alternatif yang tidak menginhibisi CYP3A4."},
+  {drugs:["phenytoin","fluconazole"],sev:"moderate",mech:"Farmakokinetik (inhibisi CYP2C9)",desc:"Flukonazol menginhibisi CYP2C9, meningkatkan kadar fenitoin dan risiko toksisitas (nistagmus, ataksia).",mgmt:"Monitor kadar fenitoin serum. Pertimbangkan reduksi dosis 10–25%."},
+  {drugs:["phenytoin","carbamazepine"],sev:"moderate",mech:"Farmakokinetik (induksi enzim mutual)",desc:"Induksi enzim mutual menghasilkan kadar plasma yang tidak dapat diprediksi untuk keduanya.",mgmt:"Monitor kadar serum keduanya secara ketat. Titrasi berdasarkan respons klinis."},
+  {drugs:["allopurinol","azathioprine"],sev:"severe",mech:"Farmakokinetik (inhibisi xantin oksidase)",desc:"Alopurinol menginhibisi xantin oksidase yang memetabolisme azatioprin, meningkatkan kadar 6-MP dan risiko mielosupresi berat.",mgmt:"Kurangi dosis azatioprin 66–75% jika harus dikombinasikan. Monitor CBC ketat."},
+  {drugs:["methotrexate","nsaid"],sev:"severe",mech:"Farmakokinetik (reduksi ekskresi renal)",desc:"NSAID menurunkan clearance renal metotreksat, meningkatkan toksisitas (bone marrow suppression, mucositis, nefrotoksisitas).",mgmt:"Hindari kombinasi. Jika perlu, tunda NSAID 1–2 hari sebelum/sesudah MTX, monitor CBC dan fungsi renal."},
+  {drugs:["metformin","contrast"],sev:"severe",mech:"Farmakodinamik (laktat asidosis)",desc:"Kontras iodium dapat menyebabkan gangguan fungsi renal akut, meningkatkan akumulasi metformin dan risiko asidosis laktat.",mgmt:"Hentikan metformin 48 jam sebelum dan sesudah kontras. Restart hanya setelah fungsi renal normal."},
+  {drugs:["insulin","beta-blocker"],sev:"moderate",mech:"Farmakodinamik (masking hipoglikemia)",desc:"Beta-bloker non-selektif menutupi tanda takikardi hipoglikemia dan memperlama pemulihan glukosa.",mgmt:"Gunakan beta-bloker kardioselektif (metoprolol, bisoprolol). Edukasi gejala hipoglikemia non-adrenergik."},
+  {drugs:["sildenafil","nitrate"],sev:"severe",mech:"Farmakodinamik (vasodilatasi aditif)",desc:"Sildenafil dan nitrat keduanya menurunkan kadar cGMP, menghasilkan vasodilatasi ekstrem dan hipotensi berat yang berpotensi fatal.",mgmt:"Kontraindikasi absolut. Jangan berikan nitrat dalam 24–48 jam penggunaan sildenafil/tadalafil."},
+  {drugs:["sildenafil","isdn"],sev:"severe",mech:"Farmakodinamik (vasodilatasi aditif)",desc:"ISDN (isosorbide dinitrate) bersama sildenafil menghasilkan hipotensi berat yang berpotensi fatal.",mgmt:"Kontraindikasi absolut. Hindari sepenuhnya."},
+  {drugs:["ssri","tramadol"],sev:"severe",mech:"Farmakodinamik (serotonin syndrome)",desc:"Kombinasi SSRI dan tramadol meningkatkan serotonin secara sinergis, berisiko sindrom serotonin (agitasi, hiperflexi, hipertermi).",mgmt:"Hindari kombinasi. Pertimbangkan opioid lain yang tidak bersifat serotonergik."},
+  {drugs:["linezolid","ssri"],sev:"severe",mech:"Farmakodinamik (serotonin syndrome)",desc:"Linezolid adalah inhibitor MAO lemah. Kombinasi dengan SSRI berisiko tinggi sindrom serotonin fatal.",mgmt:"Kontraindikasi. Hentikan SSRI minimal 2 minggu sebelum memulai linezolid."},
+  {drugs:["morphine","benzodiazepine"],sev:"severe",mech:"Farmakodinamik (aditif opioid + BZD)",desc:"Kombinasi opioid dan benzodiazepin meningkatkan risiko depresi napas, sedasi berlebih, dan kematian (FDA black box warning).",mgmt:"Hindari kombinasi rutin. Jika terpaksa di ICU, monitoring ketat, siapkan antagonis, gunakan dosis minimal."},
+  {drugs:["fentanyl","midazolam"],sev:"moderate",mech:"Farmakodinamik (sinergisme CNS)",desc:"Kombinasi memberikan sedasi-analgesia sinergistik, namun meningkatkan risiko depresi napas dan hipotensi berat di ICU.",mgmt:"Titrasi hati-hati. Monitoring ketat dengan capnografi. Siapkan nalokson dan flumazenil."},
+  {drugs:["propofol","midazolam"],sev:"moderate",mech:"Farmakodinamik (aditif CNS depression)",desc:"Efek sinergistik dalam depresi SSP meningkatkan risiko hipotensi berat dan apnea.",mgmt:"Kurangi dosis keduanya saat dikombinasikan. Pantau hemodinamik dan saturasi oksigen."},
+  {drugs:["ketamine","theophylline"],sev:"severe",mech:"Farmakodinamik (penurunan ambang kejang)",desc:"Ketamin menurunkan ambang kejang. Kombinasi dengan teofilin (konvulsif) meningkatkan risiko kejang signifikan.",mgmt:"Hindari kombinasi. Pertimbangkan penghentian sementara teofilin jika ketamin diperlukan."},
+  {drugs:["norepinephrine","maoi"],sev:"severe",mech:"Farmakodinamik (krisis hipertensi)",desc:"MAO inhibitor meningkatkan katekolamin secara dramatis. Kombinasi dengan norepinefrin dapat menyebabkan krisis hipertensi berat.",mgmt:"Kontraindikasi. Waspadai obat simpatomimetik pada pasien yang mendapat terapi MAOI."},
+  {drugs:["ceftriaxone","calcium"],sev:"severe",mech:"Farmakodinamik (presipitasi)",desc:"Seftriakson dapat membentuk presipitat dengan kalsium di paru dan ginjal, berpotensi fatal pada neonatus.",mgmt:"Kontraindikasi bersamaan pada neonatus. Dewasa: hindari jalur IV sama, beri selang minimal 48 jam."},
+  {drugs:["calcium channel blocker","rifampicin"],sev:"moderate",mech:"Farmakokinetik (induksi CYP3A4)",desc:"Rifampisin menginduksi CYP3A4 secara kuat, menurunkan kadar CCB secara dramatis dan mengurangi efek antihipertensi.",mgmt:"Pantau tekanan darah. Mungkin diperlukan peningkatan dosis CCB."},
+  {drugs:["levothyroxine","calcium"],sev:"moderate",mech:"Farmakokinetik (chelation)",desc:"Suplemen kalsium mengurangi absorpsi levotiroksin secara signifikan melalui pembentukan chelate.",mgmt:"Berikan levotiroksin minimal 4 jam sebelum suplemen kalsium. Pantau kadar TSH."},
+  {drugs:["levothyroxine","iron"],sev:"moderate",mech:"Farmakokinetik (chelation)",desc:"Suplemen besi membentuk chelate dengan levotiroksin, mengurangi absorpsi hormon tiroid.",mgmt:"Berikan levotiroksin minimal 4 jam terpisah dari suplemen besi. Pantau kadar TSH."},
+  {drugs:["aspirin","ibuprofen"],sev:"moderate",mech:"Farmakodinamik (kompetisi COX-1)",desc:"Ibuprofen berkompetisi dengan aspirin pada binding site COX-1, mengurangi efek antiplatelet aspirin dosis rendah.",mgmt:"Berikan aspirin 2 jam sebelum ibuprofen atau gunakan celecoxib sebagai alternatif."},
+  {drugs:["nsaid","antihypertensive"],sev:"moderate",mech:"Farmakodinamik (antagonisme)",desc:"NSAID menyebabkan retensi natrium dan air, mengantagonisasi efek antihipertensi.",mgmt:"Monitor tekanan darah lebih sering. Pertimbangkan analgesia non-NSAID jika hipertensi tidak terkontrol."},
+  {drugs:["lithium","nsaid"],sev:"moderate",mech:"Farmakokinetik (reduksi ekskresi renal)",desc:"NSAID menurunkan clearance renal lithium, meningkatkan kadar lithium dan risiko toksisitas.",mgmt:"Monitor kadar lithium serum dalam 5–7 hari. Pertimbangkan asetaminofen sebagai alternatif."},
+  {drugs:["tetracycline","antacid"],sev:"moderate",mech:"Farmakokinetik (chelation)",desc:"Kation antasida membentuk chelate dengan tetrasiklin, mengurangi absorpsi oral hingga 50–90%.",mgmt:"Berikan tetrasiklin 1–2 jam sebelum atau 4–6 jam setelah antasida."},
+];
+
+// ═══════════════ DRUG LIST ════════════════
+const DRUGS = ["Warfarin","Aspirin","Clopidogrel","Heparin","Enoxaparin","Amiodarone","Digoxin",
+  "Metoprolol","Bisoprolol","Carvedilol","Verapamil","Diltiazem","Amlodipine","Nifedipine",
+  "Furosemide","Spironolactone","Lisinopril","Ramipril","Enalapril","Losartan","Candesartan",
+  "Simvastatin","Atorvastatin","Rosuvastatin","Pravastatin","Fibrate","Gemfibrozil","Fenofibrate",
+  "Metformin","Insulin","Glibenclamide","Sitagliptin","Empagliflozin",
+  "Morphine","Tramadol","Fentanyl","Codeine","Ketamine","Oxycodone",
+  "Midazolam","Diazepam","Lorazepam","Alprazolam","Propofol","Dexmedetomidine",
+  "Phenytoin","Carbamazepine","Valproate","Lithium","Levetiracetam",
+  "Haloperidol","Quetiapine","Risperidone","Olanzapine","Clozapine",
+  "Fluoxetine","Sertraline","Escitalopram","Paroxetine","Amitriptyline","SSRI",
+  "Ciprofloxacin","Levofloxacin","Meropenem","Imipenem","Piperacillin-Tazobactam",
+  "Ceftriaxone","Cefazolin","Cefepime","Vancomycin","Metronidazole","Clindamycin",
+  "Erythromycin","Clarithromycin","Azithromycin","Linezolid","Gentamicin","Amikacin","Aminoglycoside",
+  "Fluconazole","Itraconazole","Voriconazole","Caspofungin",
+  "Tacrolimus","Cyclosporine","Azathioprine","Methotrexate","Mycophenolate",
+  "Omeprazole","Pantoprazole","Rabeprazole","Ranitidine","Cimetidine","Antacid",
+  "Theophylline","Salbutamol","Budesonide","Ipratropium",
+  "Levothyroxine","Propylthiouracil","Methimazole",
+  "Sildenafil","Tadalafil","Nitrate","ISDN","Isosorbide Dinitrate","ISDN",
+  "Allopurinol","Colchicine","Probenecid",
+  "Ibuprofen","Naproxen","Diclofenac","Ketorolac","Celecoxib","Meloxicam","NSAID",
+  "Dopamine","Dobutamine","Norepinephrine","Adrenaline","Epinephrine","Vasopressin","Milrinone",
+  "Calcium","Calcium Gluconate","Potassium","Potassium Chloride","Magnesium Sulfate",
+  "Iron","Ferrous Sulfate","Vitamin K","Folic Acid","Vitamin B12",
+  "Rifampicin","Isoniazid","Pyrazinamide","Ethambutol",
+  "Dexamethasone","Methylprednisolone","Hydrocortisone","Prednisolone",
+  "Ondansetron","Metoclopramide","Domperidone","Haloperidol",
+  "Contrast","Iodine Contrast","Tetracycline","Doxycycline","Benzodiazepine",
+  "Beta-Blocker","Calcium Channel Blocker","ACE Inhibitor","MAOI","Statin",
+  "Heparin","Bivalirudin","Fondaparinux"];
+
+// ═══════════════ STATE ════════════════════
+let rows=[], rc=0;
+
+// ═══════════════ INIT ═════════════════════
+window.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('topbar-date').textContent =
+    new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  addRow(); addRow(); addRow();
+});
+
+// ═══════════════ ROW MANAGEMENT ══════════
+function addRow(){
+  rc++;
+  rows.push({id:rc,drug:'',dose:'',freq:'',route:''});
+  render();
+}
+function removeRow(id){
+  rows=rows.filter(r=>r.id!==id);
+  if(!rows.length) addRow();
+  render(); syncStats();
+}
+function render(){
+  const tb=document.getElementById('rx-tbody');
+  tb.innerHTML='';
+  rows.forEach((row,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><span class="row-num">${i+1}</span></td>
+      <td>
+        <div class="ac-wrap" id="acw-${row.id}">
+          <input class="drug-inp${row.drug?' filled':''}" id="di-${row.id}"
+            value="${row.drug}" placeholder="Nama obat..."
+            oninput="onInp(${row.id},this.value)"
+            onblur="hideDrop(${row.id})" autocomplete="off">
+          <div class="ac-drop" id="acd-${row.id}"></div>
+        </div>
+      </td>
+      <td><input class="mini-inp" placeholder="500mg" value="${row.dose}" oninput="rows[${i}].dose=this.value"></td>
+      <td>
+        <select class="mini-inp" onchange="rows[${i}].freq=this.value">
+          <option value="">—</option>
+          ${['1x1','2x1','3x1','4x1','Tiap 6 jam','Tiap 8 jam','Tiap 12 jam','Tiap 24 jam','Prn','Infus kontinyu','Bolus']
+            .map(f=>`<option${row.freq===f?' selected':''}>${f}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select class="mini-inp" onchange="rows[${i}].route=this.value">
+          <option value="">—</option>
+          ${['PO','IV','IM','SC','Inhalasi','Topikal','Sublingual']
+            .map(r=>`<option${row.route===r?' selected':''}>${r}</option>`).join('')}
+        </select>
+      </td>
+      <td><button class="btn-del" onclick="removeRow(${row.id})">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  syncStats();
+}
+
+function syncStats(){
+  const n=rows.filter(r=>r.drug.trim()).length;
+  document.getElementById('rx-count').textContent=n+' obat';
+  document.getElementById('stat-drugs'+'')&&(document.getElementById('stat-drugs').textContent=n);
+}
+
+// ═══════════════ AUTOCOMPLETE ════════════
+function onInp(id,val){
+  const i=rows.findIndex(r=>r.id===id);
+  rows[i].drug=val;
+  const drop=document.getElementById('acd-'+id);
+  if(val.length<1){drop.classList.remove('open');return}
+  const hits=DRUGS.filter(d=>d.toLowerCase().includes(val.toLowerCase())).slice(0,8);
+  if(!hits.length){drop.classList.remove('open');return}
+  drop.innerHTML=hits.map(d=>`
+    <div class="ac-item" onmousedown="pickDrug(${id},'${d.replace(/'/g,"\\'")}')">
+      <span class="ac-dot"></span>${d}
+    </div>`).join('');
+  drop.classList.add('open');
+  syncStats();
+}
+function pickDrug(id,drug){
+  const i=rows.findIndex(r=>r.id===id);
+  rows[i].drug=drug;
+  const inp=document.getElementById('di-'+id);
+  inp.value=drug; inp.classList.add('filled');
+  document.getElementById('acd-'+id).classList.remove('open');
+  syncStats();
+}
+function hideDrop(id){
+  setTimeout(()=>{
+    const d=document.getElementById('acd-'+id);
+    if(d) d.classList.remove('open');
+  },150);
+}
+
+// ═══════════════ CHECK ═══════════════════
+function doCheck(){
+  const drugs=rows.map(r=>r.drug.trim().toLowerCase()).filter(Boolean);
+  syncStats();
+  if(drugs.length<2){showToast('⚠️ Tambahkan minimal 2 obat untuk cek interaksi');return}
+
+  const found=[];
+  for(let i=0;i<drugs.length;i++)
+    for(let j=i+1;j<drugs.length;j++){
+      const a=drugs[i],b=drugs[j];
+      for(const e of DB){
+        const da=e.drugs[0].toLowerCase(),db=e.drugs[1].toLowerCase();
+        const hit=(a.includes(da)||da.includes(a)||b.includes(da)||da.includes(b))&&
+                  (a.includes(db)||db.includes(a)||b.includes(db)||db.includes(b));
+        if(hit&&!found.find(f=>f===e)){
+          const rA=rows.find(r=>r.drug&&r.drug.toLowerCase().includes(da));
+          const rB=rows.find(r=>r.drug&&r.drug.toLowerCase().includes(db));
+          found.push({...e,
+            nameA:rA?.drug||da,
+            nameB:rB?.drug||db});
+        }
+      }
+    }
+
+  // update badge
+  const badge=document.getElementById('nav-badge');
+  badge.textContent=found.length;
+  badge.classList.toggle('visible',found.length>0);
+  document.getElementById('result-count').textContent=found.length?found.length+' interaksi':'Aman';
+
+  renderPanel(found);
+  if(found.length>0) showModal(found);
+  else showToast('✅ Tidak ada interaksi — Resep disimpan');
+}
+
+// ═══════════════ PANEL ═══════════════════
+function renderPanel(found){
+  const p=document.getElementById('result-panel');
+  if(!found.length){
+    p.innerHTML=`
+      <div class="result-bar safe">
+        <span class="result-bar-icon">✅</span>
+        <div>
+          <div class="result-bar-title">Tidak Ada Interaksi</div>
+          <div class="result-bar-sub">Semua kombinasi aman berdasarkan database DDI</div>
+        </div>
+      </div>`;
+    return;
+  }
+  const sv=found.filter(f=>f.sev==='severe'),
+        mo=found.filter(f=>f.sev==='moderate'),
+        mi=found.filter(f=>f.sev==='mild');
+  const subParts=[];
+  if(sv.length) subParts.push(`${sv.length} berat`);
+  if(mo.length) subParts.push(`${mo.length} sedang`);
+  if(mi.length) subParts.push(`${mi.length} ringan`);
+  p.innerHTML=`
+    <div class="result-bar warn">
+      <span class="result-bar-icon">⚠️</span>
+      <div>
+        <div class="result-bar-title">${found.length} Interaksi Ditemukan</div>
+        <div class="result-bar-sub">${subParts.join(' · ')}</div>
+      </div>
+    </div>
+    <div class="ddi-list" id="ddi-list"></div>`;
+  const list=document.getElementById('ddi-list');
+  const sorted=[...sv,...mo,...mi];
+  sorted.forEach((item,idx)=>{
+    const chipCls=item.sev==='severe'?'sev-severe':item.sev==='moderate'?'sev-moderate':'sev-mild';
+    const lbl=item.sev==='severe'?'🔴 Berat':item.sev==='moderate'?'🟡 Sedang':'🟢 Ringan';
+    const div=document.createElement('div');
+    div.className='ddi-card';
+    div.innerHTML=`
+      <div class="ddi-card-head" onclick="toggleDDI(${idx})">
+        <span class="sev-chip ${chipCls}">${lbl}</span>
+        <span class="ddi-drugs">${item.nameA} ↔ ${item.nameB}</span>
+        <span class="ddi-chev" id="dc-${idx}">▶</span>
+      </div>
+      <div class="ddi-body" id="db-${idx}">
+        <div>
+          <div class="ddi-detail-label">Mekanisme</div>
+          <div class="ddi-detail-val"><span class="mech-tag">⚙ ${item.mech}</span></div>
+        </div>
+        <div>
+          <div class="ddi-detail-label">Deskripsi</div>
+          <div class="ddi-detail-val">${item.desc}</div>
+        </div>
+        <div>
+          <div class="ddi-detail-label">Penatalaksanaan</div>
+          <div class="manage-box">${item.mgmt}</div>
+        </div>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+function toggleDDI(idx){
+  document.getElementById('db-'+idx).classList.toggle('open');
+  document.getElementById('dc-'+idx).classList.toggle('open');
+}
+
+// ═══════════════ MODAL ═══════════════════
+function showModal(found){
+  const sv=found.filter(f=>f.sev==='severe');
+  const mo=found.filter(f=>f.sev==='moderate');
+  const top=sv.length?'severe':mo.length?'moderate':'mild';
+  const banner=document.getElementById('modal-banner');
+  banner.className='modal-banner'+(top==='moderate'?' lvl-moderate':top==='mild'?' lvl-mild':'');
+  document.getElementById('modal-icon').textContent=top==='severe'?'🚨':top==='moderate'?'⚠️':'💡';
+  document.getElementById('modal-title').textContent=
+    top==='severe'?'PERINGATAN! Interaksi Obat Berat':
+    top==='moderate'?'Perhatian: Interaksi Sedang Terdeteksi':
+    'Interaksi Ringan Terdeteksi';
+  document.getElementById('modal-sub').textContent=
+    top==='severe'?`${sv.length} interaksi BERAT — tindakan segera diperlukan`:
+    `${found.length} interaksi — pantau dan pertimbangkan penyesuaian`;
+
+  const sorted=[...found].sort((a,b)=>({severe:0,moderate:1,mild:2}[a.sev]-{severe:0,moderate:1,mild:2}[b.sev]));
+  document.getElementById('modal-items').innerHTML=sorted.map(item=>{
+    const chipCls=item.sev==='severe'?'sev-severe':item.sev==='moderate'?'sev-moderate':'sev-mild';
+    const lbl=item.sev==='severe'?'🔴 BERAT':item.sev==='moderate'?'🟡 SEDANG':'🟢 RINGAN';
+    return `
+      <div class="modal-item ${item.sev}">
+        <div class="modal-item-header">
+          <span class="sev-chip ${chipCls}">${lbl}</span>
+          <span class="modal-item-drugs">${item.nameA} ↔ ${item.nameB}</span>
+        </div>
+        <div class="modal-item-desc">${item.desc}</div>
+        <div class="modal-item-manage">${item.mgmt}</div>
+      </div>`;
+  }).join('');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('open')}
+function confirmSave(){closeModal();showToast('⚠️ Disimpan dengan catatan interaksi — monitoring ketat')}
+function overlayClick(e){if(e.target===document.getElementById('overlay'))closeModal()}
+
+// ═══════════════ TOAST ═══════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+</script>
+</body>
+</html>
